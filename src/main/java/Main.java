@@ -1,3 +1,4 @@
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import java.io.File;
@@ -6,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+//-Xmx4096m run using this vm option.
 
 public  class Main {
     public static void main(String[] args) throws Exception{
@@ -54,9 +55,23 @@ public  class Main {
             try {
                 System.out.println("Indexing to directory '" + index + "'...");
                 Directory dir = FSDirectory.open(Paths.get(index));
-                Parser.listFilesForFolder(new File(docDir.toString()), false);
-                // Comment/Un-Comment below lines for indexing, searching and scoring
-//                Indexing.startIndexing(dir);
+                String[] files= dir.listAll();
+                //Clean the index directory for the fresh index storage
+                for (String filename : files)
+                {
+                    File file = new File(index+"/"+filename);
+                    file.delete();
+                }
+                /**
+                 * Parsing of datasets in Data folder and indexing them as soon as they are parsed
+                 * to reduce the memory load. Comment/Uncomment the lines upto "indexing complete"
+                 * statement to remove the indexing. Indexing is now using Create_or_Append config.
+                 */
+                IndexConfig iconfig = new IndexConfig(dir);
+                IndexWriter writer = new IndexWriter(iconfig.get_index_directory(), iconfig.get_index_configuration());
+                Parser.listFilesForFolder(new File(docDir.toString()), writer, false);
+                writer.close();
+                System.out.println("-----------Indexing complete-----------");
                 Searching.startSearching(index, queries, numdocs);
 //                Scoring.scoreit();
             } catch (IOException e) {

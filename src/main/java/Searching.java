@@ -33,7 +33,7 @@ public class Searching {
 
         searcher.setSimilarity(similarity);
 
-        Parser.listFilesForFolder(new File(queries), true);
+        Parser.listFilesForFolder(new File(queries),null, true);
         Map<String, Float> boostFields = new HashMap<String, Float>();
         boostFields.put("Headline",10f);
         boostFields.put("Content",5f);

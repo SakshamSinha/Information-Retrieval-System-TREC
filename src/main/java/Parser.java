@@ -1,11 +1,12 @@
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -16,17 +17,21 @@ public class Parser {
     static List<Document> docs = new ArrayList<Document>();
     static List<CreateTopic> topics= new ArrayList<CreateTopic>();
 
-    public static void listFilesForFolder(final File folder, boolean search) {
+
+
+    public static void listFilesForFolder(final File folder, IndexWriter writer, boolean search) throws IOException {
+
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry, search);
+                listFilesForFolder(fileEntry, writer, search);
             } else {
-                Parser.parseMe(fileEntry, search);
+                Parser.parseMe(fileEntry, writer, search);
             }
         }
+
     }
 
-    public static void parseMe(File file, boolean search) {
+    public static void parseMe(File file, IndexWriter writer, boolean search) {
         try {
             String docnum = "";
             String content = "";
@@ -104,7 +109,7 @@ public class Parser {
                         text.append(line + "\n");
 
                         if (line.startsWith("</DOC>")) {
-                            System.out.println("Doc no");
+//                            System.out.println("Doc no");
                             org.jsoup.nodes.Document jsoupDoc = Jsoup.parse(text.toString());
                             Elements docnoElements = jsoupDoc.getElementsByTag("DOCNO");
                             if (docnoElements != null && docnoElements.size() == 1) {
@@ -116,7 +121,7 @@ public class Parser {
                             StringBuilder dochdrBuilder = new StringBuilder();
                             Elements dochdrElements = jsoupDoc.getElementsByTag("HEADLINE");
                             if (dochdrElements.size() != 0) {
-                                System.out.println("Doc headline");
+//                                System.out.println("Doc headline");
                                 ListIterator<Element> elIterator = dochdrElements.listIterator();
                                 while (elIterator.hasNext())
                                     dochdrBuilder.append(" ").append(elIterator.next().text());
@@ -126,7 +131,7 @@ public class Parser {
                             StringBuilder headerBuilder = new StringBuilder();
                             Elements headerElements = jsoupDoc.getElementsByTag("HEADER");
                             if (headerElements.size() != 0) {
-                                System.out.println("Doc header");
+//                                System.out.println("Doc header");
                                 ListIterator<Element> elIterator = headerElements.listIterator();
                                 while (elIterator.hasNext())
                                     headerBuilder.append(" ").append(elIterator.next().text());
@@ -137,7 +142,7 @@ public class Parser {
                             StringBuilder contentBuilder = new StringBuilder();
                             Elements contentElements = jsoupDoc.getElementsByTag("TEXT");
                             if (contentElements.size() != 0) {
-                                System.out.println("Contents");
+//                                System.out.println("Contents");
                                 ListIterator<Element> elIterator = contentElements.listIterator();
                                 while (elIterator.hasNext())
                                     contentBuilder.append(" ").append(elIterator.next().text());
@@ -146,7 +151,8 @@ public class Parser {
 
                             CreateDoc newDoc = new CreateDoc();
                             doc = newDoc.createDocument(docnum, dochdr, content);
-                            Parser.docs.add(doc);
+                            Indexing.indexDoc(writer,doc);
+//                            Parser.docs.add(doc);
                             System.out.println("Doc parsed with id: " + docnum);
                         }
                         line = br.readLine();
