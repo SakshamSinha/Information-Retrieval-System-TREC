@@ -14,3 +14,4 @@ dtds will get parsed and indexed which should not be done.
 * Parameter docs is the directory path of datasets.
 * Parameter query is the directory path of topics.
 * Parameter numdocs is the number of documents one wants to retrieve when a query is fired.
+* Output will be generated in output file in Query folder
