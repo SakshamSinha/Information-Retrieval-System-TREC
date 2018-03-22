@@ -7,7 +7,7 @@ dtds will get parsed and indexed which should not be done.
 * Once above steps are done, build the project using maven as it is a maven project.
 * Run it using main.
 * Parameters for the main should be - 
-```$xslt
+```
 -index src/main/resources/Index -docs src/main/resources/Data -queries src/main/resources/Query -numdocs 30 
 ```
 * Parameter index is the directory path of index.
