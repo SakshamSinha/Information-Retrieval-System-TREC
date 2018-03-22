@@ -11,7 +11,7 @@ public class Indexing {
 
   static void indexDoc(IndexWriter writer, Document doc) throws IOException {
         try {
-                  if (writer.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE_OR_APPEND) {
+                  if (writer.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE) {
                       try {
                           writer.addDocument(doc);
                           System.out.println("indexing "+ doc.get("DocID"));

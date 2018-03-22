@@ -55,13 +55,13 @@ public  class Main {
             try {
                 System.out.println("Indexing to directory '" + index + "'...");
                 Directory dir = FSDirectory.open(Paths.get(index));
-                String[] files= dir.listAll();
-                //Clean the index directory for the fresh index storage
-                for (String filename : files)
-                {
-                    File file = new File(index+"/"+filename);
-                    file.delete();
-                }
+//                String[] files= dir.listAll();
+//                //Clean the index directory for the fresh index storage
+//                for (String filename : files)
+//                {
+//                    File file = new File(index+"/"+filename);
+//                    file.delete();
+//                }
                 /**
                  * Parsing of datasets in Data folder and indexing them as soon as they are parsed
                  * to reduce the memory load. Comment/Uncomment the lines upto "indexing complete"

@@ -22,7 +22,7 @@ import org.apache.lucene.store.FSDirectory;
 public class Searching {
 
     public static void startSearching(String index, String queries, int numdocs) throws Exception{
-        FileWriter output = new FileWriter("src/main/resources/Query/output");
+        FileWriter output = new FileWriter("output");
         BufferedWriter bw = new BufferedWriter(output);
 
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));

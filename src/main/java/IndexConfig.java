@@ -11,8 +11,8 @@ public class IndexConfig {
     public IndexConfig(Directory dir) throws IOException {
         iwc = new IndexWriterConfig(Config.analyzer);
         iwc.setSimilarity(Config.similarity);
-        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-        iwc.setRAMBufferSizeMB(256.0);
+        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+        iwc.setRAMBufferSizeMB(100.0);
         this.dir = dir;
     }
 
