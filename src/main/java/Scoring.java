@@ -4,7 +4,7 @@ public class Scoring {
 
     public static void scoreit() throws Exception {
         try {
-            String target = new String("trec_eval.9.0/trec_eval -l 3 src/main/resources/Query/QRelsCorrectedforTRECeval src/main/resources/Query/output");
+            String target = new String("trec_eval.9.0/trec_eval src/main/resources/Query/qrels.assignment2.part1 src/main/resources/Query/output");
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(target);
             proc.waitFor();

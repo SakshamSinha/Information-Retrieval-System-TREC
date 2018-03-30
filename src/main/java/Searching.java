@@ -11,10 +11,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 
@@ -22,7 +19,7 @@ import org.apache.lucene.store.FSDirectory;
 public class Searching {
 
     public static void startSearching(String index, String queries, int numdocs) throws Exception{
-        FileWriter output = new FileWriter("output");
+        FileWriter output = new FileWriter("src/main/resources/Query/output");
         BufferedWriter bw = new BufferedWriter(output);
 
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
@@ -35,16 +32,16 @@ public class Searching {
 
         Parser.listFilesForFolder(new File(queries),null, true);
         Map<String, Float> boostFields = new HashMap<String, Float>();
-        boostFields.put("Headline",10f);
-        boostFields.put("Content",5f);
+        boostFields.put("Headline",5f);
+        boostFields.put("Content",10f);
         MultiFieldQueryParser parser = new MultiFieldQueryParser(new String[]{"Headline","Content"}, analyzer, boostFields);
-
         parser.setAllowLeadingWildcard(true);
 
         for (CreateTopic topic : Parser.topics) {
-            String queryLine = topic.getQueryTitle() + topic.getQueryDesc() + topic.getQueryNarr();
+            String queryLine =  topic.getQueryTitle() + topic.getQueryDesc() + topic.getQueryNarr();
 
             Query query = parser.parse(QueryParser.escape(queryLine));
+
             System.out.println("Searching for: " + query.toString());
 
             doSearch(bw, topic.getQueryNumber(), searcher, query, numdocs);

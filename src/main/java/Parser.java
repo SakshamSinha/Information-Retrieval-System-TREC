@@ -149,6 +149,7 @@ public class Parser {
                                 content = contentBuilder.toString();
                             }
 
+
                             CreateDoc newDoc = new CreateDoc();
                             doc = newDoc.createDocument(docnum, dochdr, content);
                             Indexing.indexDoc(writer,doc);

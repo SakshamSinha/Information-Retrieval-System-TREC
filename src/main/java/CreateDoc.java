@@ -26,7 +26,6 @@ public class CreateDoc {
         docnumField.setStringValue(docid);
         headlineField.setStringValue(dochdr);
         contentField.setStringValue(content);
-
         doc.add(docnumField);
         doc.add(headlineField);
         doc.add(contentField);
