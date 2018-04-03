@@ -32,10 +32,13 @@ public class Searching {
 
         Parser.listFilesForFolder(new File(queries),null, true);
         Map<String, Float> boostFields = new HashMap<String, Float>();
-        boostFields.put("Headline",5f);
-        boostFields.put("Content",10f);
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(new String[]{"Headline","Content"}, analyzer, boostFields);
+        boostFields.put("Headline",1f);
+        boostFields.put("Content",50f);
+        boostFields.put("All",50f);
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(new String[]{"Headline","Content","All"}, analyzer, boostFields);
         parser.setAllowLeadingWildcard(true);
+        parser.setEnablePositionIncrements(true);
+        parser.setAutoGenerateMultiTermSynonymsPhraseQuery(true);
 
         for (CreateTopic topic : Parser.topics) {
             String queryLine =  topic.getQueryTitle() + topic.getQueryDesc() + topic.getQueryNarr();

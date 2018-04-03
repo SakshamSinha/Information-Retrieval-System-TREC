@@ -73,7 +73,7 @@ public  class Main {
                 writer.close();
                 System.out.println("-----------Indexing complete-----------");
                 Searching.startSearching(index, queries, numdocs);
-//                Scoring.scoreit();
+                Scoring.scoreit();
             } catch (IOException e) {
                 System.out.println(" caught a " + e.getClass() +
                         "\n with message: " + e.getMessage());
