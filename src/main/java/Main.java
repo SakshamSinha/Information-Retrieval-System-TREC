@@ -40,7 +40,7 @@ public  class Main {
                     i++;
                 }
             }
-
+            
             if (docsPath == null || queries == null) {
                 System.err.println("Usage: " + usage);
                 System.exit(1);
@@ -63,17 +63,17 @@ public  class Main {
 //                    file.delete();
 //                }
                 /**
-                 * Parsing of datasets in Data folder and indexing them as soon as they are parsed
-                 * to reduce the memory load. Comment/Uncomment the lines upto "indexing complete"
+                 * Parsing of data sets in Data folder and indexing them as soon as they are parsed
+                 * to reduce the memory load. Comment/Uncomment the lines up to "indexing complete"
                  * statement to remove the indexing. Indexing is now using Create_or_Append config.
                  */
-                IndexConfig iconfig = new IndexConfig(dir);
-                IndexWriter writer = new IndexWriter(iconfig.get_index_directory(), iconfig.get_index_configuration());
-                Parser.listFilesForFolder(new File(docDir.toString()), writer, false);
-                writer.close();
+//                IndexConfig iconfig = new IndexConfig(dir);
+//                IndexWriter writer = new IndexWriter(iconfig.get_index_directory(), iconfig.get_index_configuration());
+//                Parser.listFilesForFolder(new File(docDir.toString()), writer, false);
+//                writer.close();
                 System.out.println("-----------Indexing complete-----------");
                 Searching.startSearching(index, queries, numdocs);
-//                Scoring.scoreit();
+                Scoring.scoreit();
             } catch (IOException e) {
                 System.out.println(" caught a " + e.getClass() +
                         "\n with message: " + e.getMessage());
