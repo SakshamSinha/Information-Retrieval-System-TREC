@@ -19,7 +19,7 @@ import org.apache.lucene.store.FSDirectory;
 public class Searching {
 
     public static void startSearching(String index, String queries, int numdocs) throws Exception{
-        FileWriter output = new FileWriter("src/main/resources/Query/output");
+        FileWriter output = new FileWriter("output");
         BufferedWriter bw = new BufferedWriter(output);
 
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
@@ -33,8 +33,8 @@ public class Searching {
         Parser.listFilesForFolder(new File(queries),null, true);
         Map<String, Float> boostFields = new HashMap<String, Float>();
         boostFields.put("Headline",19f);
-        boostFields.put("Content",73f);
-        boostFields.put("All",45f);
+        boostFields.put("Content",100f);
+        boostFields.put("All",100f);
         MultiFieldQueryParser parser = new MultiFieldQueryParser(new String[]{"Headline","Content","All"}, analyzer, boostFields);
         parser.setAllowLeadingWildcard(true);
         parser.setEnablePositionIncrements(true);

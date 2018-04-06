@@ -67,10 +67,10 @@ public  class Main {
                  * to reduce the memory load. Comment/Uncomment the lines up to "indexing complete"
                  * statement to remove the indexing. Indexing is now using Create_or_Append config.
                  */
-//                IndexConfig iconfig = new IndexConfig(dir);
-//                IndexWriter writer = new IndexWriter(iconfig.get_index_directory(), iconfig.get_index_configuration());
-//                Parser.listFilesForFolder(new File(docDir.toString()), writer, false);
-//                writer.close();
+                IndexConfig iconfig = new IndexConfig(dir);
+                IndexWriter writer = new IndexWriter(iconfig.get_index_directory(), iconfig.get_index_configuration());
+                Parser.listFilesForFolder(new File(docDir.toString()), writer, false);
+                writer.close();
                 System.out.println("-----------Indexing complete-----------");
                 Searching.startSearching(index, queries, numdocs);
                 Scoring.scoreit();
